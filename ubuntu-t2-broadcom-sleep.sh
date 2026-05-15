@@ -37,6 +37,7 @@ elif [ "${1}" = "post" ]; then
     # 9. Start the background services
     systemctl restart NetworkManager
     systemctl restart bluetooth
+    systemctl restart upower
 
     # 10. Give the daemon 3 seconds to fully initialize the now-awake controller
     sleep 3
