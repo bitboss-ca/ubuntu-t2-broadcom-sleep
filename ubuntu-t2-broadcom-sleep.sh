@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 if [ "${1}" = "pre" ]; then
+
+    # 0. Gracefully disconnect devices so they clear their session keys
+    PAIRED_DEVICES=$(bluetoothctl devices Paired | awk '{print $2}')
+    for dev in $PAIRED_DEVICES; do
+        bluetoothctl disconnect "$dev" > /dev/null 2>&1
+    done
+
+    # Give the radio 1 second to actually transmit those "Goodbye" packets
+    sleep 1
+
     # 1. Sever the active radio connections
     bluetoothctl power off
 
@@ -44,4 +54,10 @@ elif [ "${1}" = "post" ]; then
 
     # 11. Force the radio on so it broadcasts to your mouse
     bluetoothctl power on
+
+    sleep 2
+
+    # 12. Wake up the LE cache and force connections
+    timeout 10 bluetoothctl scan on > /dev/null 2>&1
+
 fi
