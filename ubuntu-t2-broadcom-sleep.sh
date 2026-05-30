@@ -23,8 +23,8 @@ elif [ "${1}" = "post" ]; then
     modprobe brcmfmac
     modprobe hci_bcm4377
 
-    # 7. S3 DYNAMIC WAIT: Actively watch for the radio (timeout after 10 seconds)
-    for i in {1..30}; do
+    # 7. S3 DYNAMIC WAIT: Actively watch for the radio (timeout after 20 seconds)
+    for i in {1..20}; do
         if [ -d "/sys/class/bluetooth/hci0" ]; then
             break
         fi
