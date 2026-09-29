@@ -55,13 +55,13 @@ elif [ "${1}" = "post" ]; then
     # 11. Force the radio on so it broadcasts to your mouse
     bluetoothctl power on
 
-    sleep 2
+    sleep 5
 
     # 12. Wake up the LE cache and force connections
     timeout 10 bluetoothctl scan on > /dev/null 2>&1
     sleep 1
     bluetoothctl devices Tusted | cut -d' ' -f2 | while read D; do
-        bluetoothctl connect "$D"
+        bluetoothctl connect "$D" && sleep 1
     done
 
 fi
